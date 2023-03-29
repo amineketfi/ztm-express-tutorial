@@ -24,4 +24,4 @@ This is a basic Express.js project with some testing features.
 ISC. 
 
 ### Author
-Aminz Ketfi
+Amine Ketfi

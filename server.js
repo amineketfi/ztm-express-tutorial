@@ -1,9 +1,13 @@
 const express = require('express');
 const friendsRouter = require('./routes/friends.router');
 const messagesRouter = require('./routes/messages.router');
-
+const path = require('path');
 
 const app = express();
+
+// Configure express (Templating Engine) view engine for dynamic html pages:
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
 
 const PORT = 3000;
 
@@ -17,8 +21,19 @@ app.use((req, res, next) => {
     console.log(`${req.method} ${req.baseUrl}${req.url} ${delta}ms`);
 });
 
+// serve static files middleware:
+app.use('/site', express.static(path.join(__dirname, 'public')));
+
 // Register our json parser middleware:
 app.use(express.json());
+
+// Create a route to handle our handelbars template:
+app.get('/', (req, res) => {
+    res.render('index', {
+        title: 'My friends are very clever',
+        caption: 'Let\'s go skiing!',
+    });
+});
 
 // Register our routes:
 app.use('/api/friends', friendsRouter);
